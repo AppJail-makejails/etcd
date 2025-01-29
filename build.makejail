@@ -1,0 +1,9 @@
+INCLUDE options/options.makejail
+
+ARG etcd_version?
+
+RAW if [ -n "${etcd_version}" ]; then
+        PKG coreos-etcd${etcd_version}
+RAW else
+        PKG coreos-etcd
+RAW fi

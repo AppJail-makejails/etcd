@@ -1,0 +1,31 @@
+INCLUDE options/options.makejail
+
+ARG etcd_tag=%%TAG1%%
+ARG etcd_ajspec=gh+AppJail-makejails/etcd
+
+FROM --entrypoint "${etcd_ajspec}" etcd:${etcd_tag}
+
+STOP
+
+STAGE start
+
+USER etcd
+WORKDIR /etcd
+
+RUN daemon \
+        -t "Highly-available key value store and service discovery" \
+        -p /etcd/.pid \
+        -o /etcd/.log \
+            etcd
+
+STAGE custom:etcd_status
+
+CMD if [ -f "/etcd/.pid" ]; then \
+        top -ap `head -1 /etcd/.pid`; \
+    fi
+
+STAGE custom:etcd_log
+
+CMD if [ -f "/etcd/.log" ]; then \
+        less -R /etcd/.log; \
+    fi
