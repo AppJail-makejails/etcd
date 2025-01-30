@@ -7,3 +7,7 @@ RAW if [ -n "${etcd_version}" ]; then
 RAW else
         PKG coreos-etcd
 RAW fi
+
+CMD pw useradd -n etcd -c "Highly-available key value store and service discovery" -d /etcd -s /bin/sh
+CMD mkdir -p /etcd
+CMD chown etcd:etcd /etcd
