@@ -40,6 +40,12 @@ appjail start \
 * `etcd_ajspec` (default: `gh+AppJail-makejails/etcd`): Entry point where the `appjail-ajspec(5)` file is located.
 * `etcd_tag` (default: `13.4`): see [#tags](#tags).
 
+### Volumes
+
+| Name      | Owner | Group | Perm | Type | Mountpoint  |
+| --------- | ----- | ----- | ---- | ---- | ----------- |
+| etcd-data | 1001  | 1001  |  -   |  -   | /etcd       |
+
 ## Tags
 
 | Tag           | Arch    | Version            | Type   |
