@@ -18,11 +18,13 @@ github.com/coreos/etcd
 ```sh
 hostip=127.0.0.1
 
+mkdir -p .volumes/etcd/data
 appjail makejail \
     -j etcd \
     -f gh+AppJail-makejails/etcd \
     -o alias \
-    -o ip4_inherit
+    -o ip4_inherit \
+    -o fstab="$PWD/.volumes/etcd/data etcd-data <volumefs>"
 appjail start \
     -V ETCD_NAME=etcd0 \
     -V ETCD_ADVERTISE_CLIENT_URLS=http://$hostip:2379 \
