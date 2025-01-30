@@ -16,11 +16,23 @@ github.com/coreos/etcd
 ## How to use this Makejail
 
 ```sh
+hostip=127.0.0.1
+
 appjail makejail \
     -j etcd \
     -f gh+AppJail-makejails/etcd \
-    -o virtualnet=":<random> default" \
-    -o nat
+    -o alias \
+    -o ip4_inherit
+appjail start \
+    -V ETCD_NAME=etcd0 \
+    -V ETCD_ADVERTISE_CLIENT_URLS=http://$hostip:2379 \
+    -V ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379 \
+    -V ETCD_INITIAL_ADVERTISE_PEER_URLS=http://$hostip:2380 \
+    -V ETCD_LISTEN_PEER_URLS=http://0.0.0.0:2380 \
+    -V ETCD_INITIAL_CLUSTER_TOKEN=etcd-cluster-1 \
+    -V ETCD_INITIAL_CLUSTER="etcd0=http://$hostip:2380" \
+    -V ETCD_INITIAL_CLUSTER_STATE=new \
+    etcd
 ```
 
 ### Arguments
