@@ -18,13 +18,11 @@ github.com/coreos/etcd
 ```sh
 hostip=127.0.0.1
 
-mkdir -p .volumes/etcd/data
 appjail makejail \
     -j etcd \
     -f gh+AppJail-makejails/etcd \
     -o alias \
-    -o ip4_inherit \
-    -o fstab="$PWD/.volumes/etcd/data etcd-data <volumefs>"
+    -o ip4_inherit
 appjail start \
     -V ETCD_NAME=etcd0 \
     -V ETCD_ADVERTISE_CLIENT_URLS=http://$hostip:2379 \
@@ -50,15 +48,15 @@ appjail start \
 
 ## Tags
 
-| Tag           | Arch    | Version            | Type   |
-| ------------- | --------| ------------------ | ------ |
-| `13.4`    | `amd64` | `13.4-RELEASE` | `thin` |
-| `13.4-31` | `amd64` | `13.4-RELEASE` | `thin` |
-| `13.4-32` | `amd64` | `13.4-RELEASE` | `thin` |
-| `13.4-33` | `amd64` | `13.4-RELEASE` | `thin` |
-| `13.4-34` | `amd64` | `13.4-RELEASE` | `thin` |
-| `14.2`    | `amd64` | `14.2-RELEASE` | `thin` |
-| `14.2-31` | `amd64` | `14.2-RELEASE` | `thin` |
-| `14.2-32` | `amd64` | `14.2-RELEASE` | `thin` |
-| `14.2-33` | `amd64` | `14.2-RELEASE` | `thin` |
-| `14.2-34` | `amd64` | `14.2-RELEASE` | `thin` |
+| Tag           | Arch    | Version            | Type   | `etcd_version` |
+| ------------- | --------| ------------------ | ------ | -------------- |
+| `13.4`    | `amd64` | `13.4-RELEASE` | `thin` |       -        |
+| `13.4-31` | `amd64` | `13.4-RELEASE` | `thin` |      `31`      |
+| `13.4-32` | `amd64` | `13.4-RELEASE` | `thin` |      `32`      |
+| `13.4-33` | `amd64` | `13.4-RELEASE` | `thin` |      `33`      |
+| `13.4-34` | `amd64` | `13.4-RELEASE` | `thin` |      `34`      |
+| `14.2`    | `amd64` | `14.2-RELEASE` | `thin` |       -        |
+| `14.2-31` | `amd64` | `14.2-RELEASE` | `thin` |      `31`      |
+| `14.2-32` | `amd64` | `14.2-RELEASE` | `thin` |      `32`      |
+| `14.2-33` | `amd64` | `14.2-RELEASE` | `thin` |      `33`      |
+| `14.2-34` | `amd64` | `14.2-RELEASE` | `thin` |      `34`      |

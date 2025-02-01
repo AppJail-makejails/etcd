@@ -48,15 +48,15 @@ appjail start \
 
 ## Tags
 
-| Tag           | Arch    | Version            | Type   |
-| ------------- | --------| ------------------ | ------ |
-| `%%TAG1%%`    | `amd64` | `%%TAG1%%-RELEASE` | `thin` |
-| `%%TAG1%%-31` | `amd64` | `%%TAG1%%-RELEASE` | `thin` |
-| `%%TAG1%%-32` | `amd64` | `%%TAG1%%-RELEASE` | `thin` |
-| `%%TAG1%%-33` | `amd64` | `%%TAG1%%-RELEASE` | `thin` |
-| `%%TAG1%%-34` | `amd64` | `%%TAG1%%-RELEASE` | `thin` |
-| `%%TAG2%%`    | `amd64` | `%%TAG2%%-RELEASE` | `thin` |
-| `%%TAG2%%-31` | `amd64` | `%%TAG2%%-RELEASE` | `thin` |
-| `%%TAG2%%-32` | `amd64` | `%%TAG2%%-RELEASE` | `thin` |
-| `%%TAG2%%-33` | `amd64` | `%%TAG2%%-RELEASE` | `thin` |
-| `%%TAG2%%-34` | `amd64` | `%%TAG2%%-RELEASE` | `thin` |
+| Tag           | Arch    | Version            | Type   | `etcd_version` |
+| ------------- | --------| ------------------ | ------ | -------------- |
+| `%%TAG1%%`    | `amd64` | `%%TAG1%%-RELEASE` | `thin` |       -        |
+| `%%TAG1%%-31` | `amd64` | `%%TAG1%%-RELEASE` | `thin` |      `31`      |
+| `%%TAG1%%-32` | `amd64` | `%%TAG1%%-RELEASE` | `thin` |      `32`      |
+| `%%TAG1%%-33` | `amd64` | `%%TAG1%%-RELEASE` | `thin` |      `33`      |
+| `%%TAG1%%-34` | `amd64` | `%%TAG1%%-RELEASE` | `thin` |      `34`      |
+| `%%TAG2%%`    | `amd64` | `%%TAG2%%-RELEASE` | `thin` |       -        |
+| `%%TAG2%%-31` | `amd64` | `%%TAG2%%-RELEASE` | `thin` |      `31`      |
+| `%%TAG2%%-32` | `amd64` | `%%TAG2%%-RELEASE` | `thin` |      `32`      |
+| `%%TAG2%%-33` | `amd64` | `%%TAG2%%-RELEASE` | `thin` |      `33`      |
+| `%%TAG2%%-34` | `amd64` | `%%TAG2%%-RELEASE` | `thin` |      `34`      |
