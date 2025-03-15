@@ -38,7 +38,7 @@ appjail start \
 ### Arguments
 
 * `etcd_ajspec` (default: `gh+AppJail-makejails/etcd`): Entry point where the `appjail-ajspec(5)` file is located.
-* `etcd_tag` (default: `13.4`): see [#tags](#tags).
+* `etcd_tag` (default: `13.5`): see [#tags](#tags).
 
 ### Volumes
 
@@ -50,11 +50,11 @@ appjail start \
 
 | Tag           | Arch    | Version            | Type   | `etcd_version` |
 | ------------- | --------| ------------------ | ------ | -------------- |
-| `13.4`    | `amd64` | `13.4-RELEASE` | `thin` |       -        |
-| `13.4-31` | `amd64` | `13.4-RELEASE` | `thin` |      `31`      |
-| `13.4-32` | `amd64` | `13.4-RELEASE` | `thin` |      `32`      |
-| `13.4-33` | `amd64` | `13.4-RELEASE` | `thin` |      `33`      |
-| `13.4-34` | `amd64` | `13.4-RELEASE` | `thin` |      `34`      |
+| `13.5`    | `amd64` | `13.5-RELEASE` | `thin` |       -        |
+| `13.5-31` | `amd64` | `13.5-RELEASE` | `thin` |      `31`      |
+| `13.5-32` | `amd64` | `13.5-RELEASE` | `thin` |      `32`      |
+| `13.5-33` | `amd64` | `13.5-RELEASE` | `thin` |      `33`      |
+| `13.5-34` | `amd64` | `13.5-RELEASE` | `thin` |      `34`      |
 | `14.2`    | `amd64` | `14.2-RELEASE` | `thin` |       -        |
 | `14.2-31` | `amd64` | `14.2-RELEASE` | `thin` |      `31`      |
 | `14.2-32` | `amd64` | `14.2-RELEASE` | `thin` |      `32`      |

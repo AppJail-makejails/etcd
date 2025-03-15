@@ -1,6 +1,6 @@
 INCLUDE options/options.makejail
 
-ARG etcd_tag=13.4
+ARG etcd_tag=13.5
 ARG etcd_ajspec=gh+AppJail-makejails/etcd
 
 FROM --entrypoint "${etcd_ajspec}" etcd:${etcd_tag}
