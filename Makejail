@@ -6,6 +6,8 @@ ARG etcd_ajspec=gh+AppJail-makejails/etcd
 
 FROM --entrypoint "${etcd_ajspec}" etcd:${etcd_tag}
 
+COPY healthcheckers
+
 STOP
 
 STAGE start
