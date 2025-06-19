@@ -46,6 +46,19 @@ appjail start \
 | --------- | ----- | ----- | ---- | ---- | ----------- |
 | etcd-data | 1001  | 1001  |  -   |  -   | /etcd       |
 
+### Healthcheckers
+
+* `check_jail`:
+  - **description**: Check if the jail is running and restart it if it is not.
+  - **options**:
+    - `health_cmd`: `host:appjail status -q %j`
+    - `recover_cmd`: `host:appjail restart %j`
+* `check_pid`:
+  - **description**: Check if the PID file exists and the process is still running and restart the jail if it does not.
+  - **options**:
+    - `health_cmd`: `jail:/healthcheckers/pid_file.sh`
+    - `recover_cmd`: `host:appjail restart %j`
+
 ## Tags
 
 | Tag           | Arch    | Version            | Type   | `etcd_version` |

@@ -1,0 +1,2 @@
+OPTION healthcheck=name:check_jail "health_cmd:host:appjail status -q %j" "recover_cmd:host:appjail restart %j"
+OPTION healthcheck=name:check_pid "health_cmd:jail:/healthcheckers/pid_file.sh /etcd/.pid" "recover_cmd:host:appjail restart %j"
