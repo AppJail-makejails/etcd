@@ -61,15 +61,13 @@ appjail start \
 
 ## Tags
 
-| Tag           | Arch    | Version            | Type   | `etcd_version` |
-| ------------- | --------| ------------------ | ------ | -------------- |
-| `13.5`    | `amd64` | `13.5-RELEASE` | `thin` |       -        |
-| `13.5-31` | `amd64` | `13.5-RELEASE` | `thin` |      `31`      |
-| `13.5-32` | `amd64` | `13.5-RELEASE` | `thin` |      `32`      |
-| `13.5-33` | `amd64` | `13.5-RELEASE` | `thin` |      `33`      |
-| `13.5-34` | `amd64` | `13.5-RELEASE` | `thin` |      `34`      |
-| `14.3`    | `amd64` | `14.3-RELEASE` | `thin` |       -        |
-| `14.3-31` | `amd64` | `14.3-RELEASE` | `thin` |      `31`      |
-| `14.3-32` | `amd64` | `14.3-RELEASE` | `thin` |      `32`      |
-| `14.3-33` | `amd64` | `14.3-RELEASE` | `thin` |      `33`      |
-| `14.3-34` | `amd64` | `14.3-RELEASE` | `thin` |      `34`      |
+| Tag                  | Arch    | Version            | Type   | `etcd_version` |
+| -------------------- | --------| ------------------ | ------ | -------------- |
+| `13.5`           | `amd64` | `13.5-RELEASE` | `thin` |       -        |
+| `13.5-34` | `amd64` | `13.5-RELEASE` | `thin` |  `34`   |
+| `13.5-35` | `amd64` | `13.5-RELEASE` | `thin` |  `35`   |
+| `13.5-36` | `amd64` | `13.5-RELEASE` | `thin` |  `36`   |
+| `14.3`           | `amd64` | `14.3-RELEASE` | `thin` |       -        |
+| `14.3-34` | `amd64` | `14.3-RELEASE` | `thin` |  `34`   |
+| `14.3-35` | `amd64` | `14.3-RELEASE` | `thin` |  `35`   |
+| `14.3-36` | `amd64` | `14.3-RELEASE` | `thin` |  `36`   |
