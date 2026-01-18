@@ -1,7 +1,7 @@
 INCLUDE options/options.makejail
 INCLUDE options/healthcheckers.makejail
 
-ARG etcd_tag=13.5
+ARG etcd_tag=14.3
 ARG etcd_ajspec=gh+AppJail-makejails/etcd
 
 FROM --entrypoint "${etcd_ajspec}" etcd:${etcd_tag}

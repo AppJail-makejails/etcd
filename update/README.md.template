@@ -67,7 +67,7 @@ appjail start \
 | `%%TAG1%%-%%ETCD1%%` | `amd64` | `%%TAG1%%-RELEASE` | `thin` |  `%%ETCD1%%`   |
 | `%%TAG1%%-%%ETCD2%%` | `amd64` | `%%TAG1%%-RELEASE` | `thin` |  `%%ETCD2%%`   |
 | `%%TAG1%%-%%ETCD3%%` | `amd64` | `%%TAG1%%-RELEASE` | `thin` |  `%%ETCD3%%`   |
-| `%%TAG2%%`           | `amd64` | `%%TAG2%%-RELEASE` | `thin` |       -        |
-| `%%TAG2%%-%%ETCD1%%` | `amd64` | `%%TAG2%%-RELEASE` | `thin` |  `%%ETCD1%%`   |
-| `%%TAG2%%-%%ETCD2%%` | `amd64` | `%%TAG2%%-RELEASE` | `thin` |  `%%ETCD2%%`   |
-| `%%TAG2%%-%%ETCD3%%` | `amd64` | `%%TAG2%%-RELEASE` | `thin` |  `%%ETCD3%%`   |
+| `%%TAG2%%`           | `amd64` | `%%TAG2%%` | `thin` |       -        |
+| `%%TAG2%%-%%ETCD1%%` | `amd64` | `%%TAG2%%` | `thin` |  `%%ETCD1%%`   |
+| `%%TAG2%%-%%ETCD2%%` | `amd64` | `%%TAG2%%` | `thin` |  `%%ETCD2%%`   |
+| `%%TAG2%%-%%ETCD3%%` | `amd64` | `%%TAG2%%` | `thin` |  `%%ETCD3%%`   |
