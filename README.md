@@ -9,65 +9,163 @@ A highly-available key value store for shared configuration and service discover
 
 Etcd is written in Go and uses the raft consensus algorithm to manage a highly-available replicated log.
 
-github.com/coreos/etcd
+etcd.io
 
-<img src="https://i.pinimg.com/736x/54/94/1c/54941cd5b3d08746117f42ebaec895cd.jpg" alt="etcd logo" width="30%" height="auto">
+<img src="https://camo.githubusercontent.com/fe737347e56d56ae0044dc906f2e748bb917d367164e0fbd90858abaf9c9dcff/68747470733a2f2f692e70696e696d672e636f6d2f373336782f35342f39342f31632f35343934316364356233643038373436313137663432656261656338393563642e6a7067" width="30%" height="auto" alt="etcd logo">
 
 ## How to use this Makejail
 
-```sh
-hostip=127.0.0.1
+### Running a single node etcd
 
-appjail makejail \
-    -j etcd \
-    -f gh+AppJail-makejails/etcd \
-    -o alias \
-    -o ip4_inherit
-appjail start \
-    -V ETCD_NAME=etcd0 \
-    -V ETCD_ADVERTISE_CLIENT_URLS=http://$hostip:2379 \
-    -V ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379 \
-    -V ETCD_INITIAL_ADVERTISE_PEER_URLS=http://$hostip:2380 \
-    -V ETCD_LISTEN_PEER_URLS=http://0.0.0.0:2380 \
-    -V ETCD_INITIAL_CLUSTER_TOKEN=etcd-cluster-1 \
-    -V ETCD_INITIAL_CLUSTER="etcd0=http://$hostip:2380" \
-    -V ETCD_INITIAL_CLUSTER_STATE=new \
-    etcd
+Use the host IP address when configuring etcd:
+
+```console
+$ export NODE1=192.168.0.139
 ```
 
-### Arguments
+Create a directory to store etcd data:
 
-* `etcd_ajspec` (default: `gh+AppJail-makejails/etcd`): Entry point where the `appjail-ajspec(5)` file is located.
-* `etcd_tag` (default: `14.3`): see [#tags](#tags).
+```console
+$ export DATA_DIR="/var/appjail-volumes/etcd/data"
+$ mkdir -p "${DATA_DIR}"
+```
 
-### Volumes
+Profit!
 
-| Name      | Owner | Group | Perm | Type | Mountpoint  |
-| --------- | ----- | ----- | ---- | ---- | ----------- |
-| etcd-data | 1001  | 1001  |  -   |  -   | /etcd       |
+```console
+$ appjail oci run -Pd \
+    -o overwrite=force \
+    -o alias \
+    -o ip4_inherit \
+    ghcr.io/appjail-makejails/etcd:15.1-36 node1 \
+    --data-dir=/data --name node 1 \
+    --initial-advertise-peer-urls http://${NODE1}:2380 --listen-peer-urls http://${NODE1}:2380 \
+    --advertise-client-urls http://${NODE1}:2379 --listen-client-urls http://${NODE1}:2379 \
+    --initial-cluster node1=http://${NODE1}:2380
+```
 
-### Healthcheckers
+List the cluster member:
 
-* `check_jail`:
-  - **description**: Check if the jail is running and restart it if it is not.
-  - **options**:
-    - `health_cmd`: `host:appjail status -q %j`
-    - `recover_cmd`: `host:appjail restart %j`
-* `check_pid`:
-  - **description**: Check if the PID file exists and the process is still running and restart the jail if it does not.
-  - **options**:
-    - `health_cmd`: `jail:/healthcheckers/pid_file.sh`
-    - `recover_cmd`: `host:appjail restart %j`
+```console
+$ etcdctl --endpoints=http://${NODE1}:2379 member list
+```
 
-## Tags
+### Running a 3 node etcd cluster
 
-| Tag                  | Arch    | Version            | Type   | `etcd_version` |
-| -------------------- | --------| ------------------ | ------ | -------------- |
-| `14.3`           | `amd64` | `14.3-RELEASE` | `thin` |       -        |
-| `14.3-34` | `amd64` | `14.3-RELEASE` | `thin` |  `34`   |
-| `14.3-35` | `amd64` | `14.3-RELEASE` | `thin` |  `35`   |
-| `14.3-36` | `amd64` | `14.3-RELEASE` | `thin` |  `36`   |
-| `15`           | `amd64` | `15` | `thin` |       -        |
-| `15-34` | `amd64` | `15` | `thin` |  `34`   |
-| `15-35` | `amd64` | `15` | `thin` |  `35`   |
-| `15-36` | `amd64` | `15` | `thin` |  `36`   |
+```sh
+#!/bin/sh
+
+set -e
+
+REGISTRY=ghcr.io/appjail-makejails/etcd
+
+ETCD_VERSION=15.1-36
+TOKEN=my-etcd-token
+CLUSTER_STATE=new
+EXT_IF=lan0
+NAME_1=etcd-node-0
+NAME_2=etcd-node-1
+NAME_3=etcd-node-2
+HOST_1=192.168.0.140
+HOST_2=192.168.0.141
+HOST_3=192.168.0.142
+CIDR=24
+CLUSTER=${NAME_1}=http://${HOST_1}:2380,${NAME_2}=http://${HOST_2}:2380,${NAME_3}=http://${HOST_3}:2380
+DATA_DIR=/var/appjail-volumes/etcd/data
+
+mkdir -p "${DATA_DIR}"
+
+# For node 1
+THIS_NAME=${NAME_1}
+THIS_IP=${HOST_1}
+appjail oci run -Pd \
+  -o overwrite=force \
+  -o alias="${EXT_IF}" \
+  -o ip4="${THIS_IP}/${CIDR}" \
+  ${REGISTRY}:${ETCD_VERSION} ${THIS_NAME} \
+  --data-dir=/data --name ${THIS_NAME} \
+  --initial-advertise-peer-urls http://${THIS_IP}:2380 --listen-peer-urls http://0.0.0.0:2380 \
+  --advertise-client-urls http://${THIS_IP}:2379 --listen-client-urls http://0.0.0.0:2379 \
+  --initial-cluster ${CLUSTER} \
+  --initial-cluster-state ${CLUSTER_STATE} --initial-cluster-token ${TOKEN}
+
+# For node 2
+THIS_NAME=${NAME_2}
+THIS_IP=${HOST_2}
+appjail oci run -Pd \
+  -o overwrite=force \
+  -o alias="${EXT_IF}" \
+  -o ip4="${THIS_IP}/${CIDR}" \
+  ${REGISTRY}:${ETCD_VERSION} ${THIS_NAME} \
+  --data-dir=/data --name ${THIS_NAME} \
+  --initial-advertise-peer-urls http://${THIS_IP}:2380 --listen-peer-urls http://0.0.0.0:2380 \
+  --advertise-client-urls http://${THIS_IP}:2379 --listen-client-urls http://0.0.0.0:2379 \
+  --initial-cluster ${CLUSTER} \
+  --initial-cluster-state ${CLUSTER_STATE} --initial-cluster-token ${TOKEN}
+
+# For node 3
+THIS_NAME=${NAME_3}
+THIS_IP=${HOST_3}
+appjail oci run -Pd \
+  -o overwrite=force \
+  -o alias="${EXT_IF}" \
+  -o ip4="${THIS_IP}/${CIDR}" \
+  ${REGISTRY}:${ETCD_VERSION} ${THIS_NAME} \
+  --data-dir=/data --name ${THIS_NAME} \
+  --initial-advertise-peer-urls http://${THIS_IP}:2380 --listen-peer-urls http://0.0.0.0:2380 \
+  --advertise-client-urls http://${THIS_IP}:2379 --listen-client-urls http://0.0.0.0:2379 \
+  --initial-cluster ${CLUSTER} \
+  --initial-cluster-state ${CLUSTER_STATE} --initial-cluster-token ${TOKEN}
+```
+
+Profit!
+
+```console
+$ appjail oci exec etcd-node-0 etcdctl put foo bar
+```
+
+### Arguments (stage: build)
+
+* `etcd_from` (default: `ghcr.io/appjail-makejails/etcd`): Location of OCI image. See also [OCI Configuration](#oci-configuration).
+* `etcd_tag` (default: `latest`): OCI image tag. See also [OCI Configuration](#oci-configuration).
+
+### Environment (OCI image)
+
+* `PGID` (default: `1000`): Equivalent to `PUID` but for the Process Group ID.
+* `PUID` (default: `1000`): Process User ID for the container's main process, allowing you to match the owner of files written to mounted host volumes to your host system's user. Writable volumes are changed based on this environment variable.
+
+## OCI Configuration
+
+```yaml
+build:
+  variants:
+    - tag: 15.1-2
+      containerfile: Containerfile
+      args:
+        FREEBSD_RELEASE: "15.1"
+        NO_PKGCLEAN: "1"
+      cache_dirs: ["pkgcache0:/var/cache/pkg"]
+    - tag: 15.1-34
+      containerfile: Containerfile
+      args:
+        FREEBSD_RELEASE: "15.1"
+        ETCDVER: "34"
+        NO_PKGCLEAN: "1"
+      cache_dirs: ["pkgcache0:/var/cache/pkg"]
+    - tag: 15.1-35
+      containerfile: Containerfile
+      args:
+        FREEBSD_RELEASE: "15.1"
+        ETCDVER: "35"
+        NO_PKGCLEAN: "1"
+      cache_dirs: ["pkgcache0:/var/cache/pkg"]
+    - tag: 15.1-36
+      containerfile: Containerfile
+      aliases: ["latest"]
+      default: true
+      args:
+        FREEBSD_RELEASE: "15.1"
+        ETCDVER: "36"
+        NO_PKGCLEAN: "1"
+      cache_dirs: ["pkgcache0:/var/cache/pkg"]
+```

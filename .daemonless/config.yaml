@@ -1,0 +1,31 @@
+build:
+  variants:
+    - tag: 15.1-2
+      containerfile: Containerfile
+      args:
+        FREEBSD_RELEASE: "15.1"
+        NO_PKGCLEAN: "1"
+      cache_dirs: ["pkgcache0:/var/cache/pkg"]
+    - tag: 15.1-34
+      containerfile: Containerfile
+      args:
+        FREEBSD_RELEASE: "15.1"
+        ETCDVER: "34"
+        NO_PKGCLEAN: "1"
+      cache_dirs: ["pkgcache0:/var/cache/pkg"]
+    - tag: 15.1-35
+      containerfile: Containerfile
+      args:
+        FREEBSD_RELEASE: "15.1"
+        ETCDVER: "35"
+        NO_PKGCLEAN: "1"
+      cache_dirs: ["pkgcache0:/var/cache/pkg"]
+    - tag: 15.1-36
+      containerfile: Containerfile
+      aliases: ["latest"]
+      default: true
+      args:
+        FREEBSD_RELEASE: "15.1"
+        ETCDVER: "36"
+        NO_PKGCLEAN: "1"
+      cache_dirs: ["pkgcache0:/var/cache/pkg"]
