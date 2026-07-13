@@ -134,6 +134,12 @@ $ appjail oci exec etcd-node-0 etcdctl put foo bar
 * `PGID` (default: `1000`): Equivalent to `PUID` but for the Process Group ID.
 * `PUID` (default: `1000`): Process User ID for the container's main process, allowing you to match the owner of files written to mounted host volumes to your host system's user. Writable volumes are changed based on this environment variable.
 
+### Volumes
+
+| Name | Owner | Group | Perm | Type | Mountpoint |
+| --- | --- | --- | --- | --- | --- |
+| appjail-263aca83a3-data | `${PUID}` | `${PGID}` | - | - | /data |
+
 ## OCI Configuration
 
 ```yaml
