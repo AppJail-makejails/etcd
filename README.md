@@ -26,6 +26,7 @@ $ export NODE1=192.168.0.139
 Create a directory to store etcd data:
 
 ```console
+$ # Be sure that DATA_DIR is an absolute path!
 $ export DATA_DIR="/var/appjail-volumes/etcd/data"
 $ mkdir -p "${DATA_DIR}"
 ```
@@ -37,6 +38,7 @@ $ appjail oci run -Pd \
     -o overwrite=force \
     -o alias \
     -o ip4_inherit \
+    -o fstab="${DATA_DIR} /data" \
     ghcr.io/appjail-makejails/etcd:15.1-36 node1 \
     --data-dir=/data --name node1 \
     --initial-advertise-peer-urls http://${NODE1}:2380 --listen-peer-urls http://${NODE1}:2380 \
@@ -82,6 +84,7 @@ appjail oci run -Pd \
   -o overwrite=force \
   -o alias="${EXT_IF}" \
   -o ip4="${THIS_IP}/${CIDR}" \
+  -o fstab="${DATA_DIR} /data" \
   ${REGISTRY}:${ETCD_VERSION} ${THIS_NAME} \
   --data-dir=/data --name ${THIS_NAME} \
   --initial-advertise-peer-urls http://${THIS_IP}:2380 --listen-peer-urls http://0.0.0.0:2380 \
@@ -96,6 +99,7 @@ appjail oci run -Pd \
   -o overwrite=force \
   -o alias="${EXT_IF}" \
   -o ip4="${THIS_IP}/${CIDR}" \
+  -o fstab="${DATA_DIR} /data" \
   ${REGISTRY}:${ETCD_VERSION} ${THIS_NAME} \
   --data-dir=/data --name ${THIS_NAME} \
   --initial-advertise-peer-urls http://${THIS_IP}:2380 --listen-peer-urls http://0.0.0.0:2380 \
@@ -110,6 +114,7 @@ appjail oci run -Pd \
   -o overwrite=force \
   -o alias="${EXT_IF}" \
   -o ip4="${THIS_IP}/${CIDR}" \
+  -o fstab="${DATA_DIR} /data" \
   ${REGISTRY}:${ETCD_VERSION} ${THIS_NAME} \
   --data-dir=/data --name ${THIS_NAME} \
   --initial-advertise-peer-urls http://${THIS_IP}:2380 --listen-peer-urls http://0.0.0.0:2380 \
